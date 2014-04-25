@@ -560,7 +560,7 @@
             legendItemHeight = h;
         }
         function getLegendWidth() {
-            return __legend_show ? isLegendRight ? legendItemWidth * (legendStep + 1) : currentWidth : 0;
+            return __legend_show ? isLegendRight ? legendItemWidth * (legendStep + 1.2) : currentWidth : 0;
         }
         function getLegendHeight() {
             return __legend_show ? isLegendRight ? currentHeight : legendItemHeight * (legendStep + 1) : 0;
@@ -3872,6 +3872,7 @@
             var paddingTop = 4, paddingRight = 26, maxWidth = 0, maxHeight = 0, posMin = 10;
             var l, totalLength = 0, offsets = {}, widths = {}, heights = {}, margins = [0], steps = {}, step = 0;
             var withTransition, withTransitionForTransform, withTransformAll;
+            if (isLegendRight) paddingRight = 12;
 
             options = options || {};
             withTransition = isDefined(options.withTransition) ? options.withTransition : true;
