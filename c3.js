@@ -162,7 +162,8 @@
             __legend_item_onclick = getConfig(['legend', 'item', 'onclick']),
             __legend_item_onmouseover = getConfig(['legend', 'item', 'onmouseover']),
             __legend_item_onmouseout = getConfig(['legend', 'item', 'onmouseout']),
-            __legend_equally = getConfig(['legend', 'equally'], false);
+            __legend_equally = getConfig(['legend', 'equally'], false),
+            __legend_truncate = getConfig(['legend', 'truncate'], false);
 
         // axis
         var __axis_rotated = getConfig(['axis', 'rotated'], false),
@@ -3872,6 +3873,7 @@
             var paddingTop = 4, paddingRight = 26, maxWidth = 0, maxHeight = 0, posMin = 10;
             var l, totalLength = 0, offsets = {}, widths = {}, heights = {}, margins = [0], steps = {}, step = 0;
             var withTransition, withTransitionForTransform, withTransformAll;
+            var getLegendText;
             if (isLegendRight) paddingRight = 12;
 
             options = options || {};
@@ -3951,6 +3953,16 @@
             xForLegendRect = function (id, i) { return xForLegend(id, i) - 4; };
             yForLegendRect = function (id, i) { return yForLegend(id, i) - 7; };
 
+            getLegendText = function (id) {
+                var txt = isDefined(__data_names[id]) ? __data_names[id] : id;
+                if (__legend_truncate) {
+                    var truncate = parseInt(__legend_truncate, 10);
+                    if (isNaN(truncate) || truncate < 1) truncate = 50;
+                    if (txt.length > truncate) txt = txt.substr(0, truncate) + '...';
+                }
+                return txt;
+            };
+
             // Define g for legend area
             l = legend.selectAll('.' + CLASS.legendItem)
                 .data(targetIds)
@@ -3974,7 +3986,7 @@
                     }
                 });
             l.append('text')
-                .text(function (id) { return isDefined(__data_names[id]) ? __data_names[id] : id; })
+                .text(getLegendText)
                 .each(function (id, i) { updatePositions(this, id, i === 0); })
                 .style("pointer-events", "none")
                 .attr('x', isLegendRight ? xForLegendText : -200)
@@ -3997,7 +4009,7 @@
 
             legend.selectAll('text')
                 .data(targetIds)
-                .text(function (id) { return isDefined(__data_names[id]) ? __data_names[id] : id; }) // MEMO: needed for update
+                .text(getLegendText) // MEMO: needed for update
                 .each(function (id, i) { updatePositions(this, id, i === 0); })
               .transition().duration(withTransition ? 250 : 0)
                 .attr('x', xForLegendText)
