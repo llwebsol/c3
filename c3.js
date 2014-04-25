@@ -1102,6 +1102,7 @@
             value = updated ? updated.value : null;
             ratio = getArcRatio(updated);
             format = getArcLabelFormat();
+            if (ratio < 0.05) return "";
             return format ? format(value, ratio) : defaultArcValueFormat(value, ratio);
         }
         function expandArc(id, withoutFadeOut) {
