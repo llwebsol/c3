@@ -336,7 +336,7 @@
             y : function () { return "translate(0," + (__axis_rotated ? height : 0) + ")"; },
             y2 : function () { return "translate(" + (__axis_rotated ? 0 : width) + "," + (__axis_rotated ? 1 : 0) + ")"; },
             subx : function () { return "translate(0," + (__axis_rotated ? 0 : height2) + ")"; },
-            arc: function () { return "translate(" + width / 2 + "," + height / 2 + ")"; }
+            arc: function () { return "translate(" + (width - getLegendWidth()) / 2 + "," + height / 2 + ")"; }
         };
 
         var isLegendRight = __legend_position === 'right';
@@ -436,7 +436,7 @@
             updateRadius();
 
             if (isLegendRight && hasArcType(c3.data.targets)) {
-                margin3.left = width / 2 + radiusExpanded;
+                margin3.left = (width - getLegendWidth()) / 2 + radiusExpanded;
             }
         }
         function updateXgridFocus() {
