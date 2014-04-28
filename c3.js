@@ -185,6 +185,7 @@
             __axis_x_height = getConfig(['axis', 'x', 'height']),
             __axis_x_default = getConfig(['axis', 'x', 'default']),
             __axis_x_label = getConfig(['axis', 'x', 'label'], {}),
+            __axis_x_truncate = getConfig(['axis', 'x', 'truncate'], false),
             __axis_y_show = getConfig(['axis', 'y', 'show'], true),
             __axis_y_max = getConfig(['axis', 'y', 'max']),
             __axis_y_min = getConfig(['axis', 'y', 'min']),
@@ -344,6 +345,13 @@
         var legendStep = 0, legendItemWidth = 0, legendItemHeight = 0, legendOpacityForHidden = 0.15;
 
         /*-- Define Functions --*/
+
+        function truncateText(text, chars) {
+            chars = parseInt(chars, 10);
+            if (isNaN(chars) || chars < 1) chars = 50;
+            if (text.length > chars) text = text.substr(0, chars) + '...';
+            return text;
+        }
 
         function getClipPath(id) {
             return "url(" + document.URL.split('#')[0] + "#" + id + ")";
@@ -899,7 +907,9 @@
             }
             function formattedCategory(i) {
                 var c = category(i);
-                return tickFormat ? tickFormat(c) : c;
+                c = tickFormat ? tickFormat(c) : c;
+                if (__axis_x_truncate) c = truncateText(c, __axis_x_truncate);
+                return c;
             }
             function axis(g) {
                 g.each(function () {
@@ -3956,11 +3966,7 @@
 
             getLegendText = function (id) {
                 var txt = isDefined(__data_names[id]) ? __data_names[id] : id;
-                if (__legend_truncate) {
-                    var truncate = parseInt(__legend_truncate, 10);
-                    if (isNaN(truncate) || truncate < 1) truncate = 50;
-                    if (txt.length > truncate) txt = txt.substr(0, truncate) + '...';
-                }
+                if (__legend_truncate) txt = truncateText(txt, __legend_truncate);
                 return txt;
             };
 
