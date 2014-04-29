@@ -182,6 +182,7 @@
             __axis_x_max = getConfig(['axis', 'x', 'max'], null),
             __axis_x_min = getConfig(['axis', 'x', 'min'], null),
             __axis_x_padding = getConfig(['axis', 'x', 'padding'], {}),
+            __axis_x_padding_pct = getConfig(['axis', 'x', 'padding_pct'], 1),
             __axis_x_height = getConfig(['axis', 'x', 'height']),
             __axis_x_default = getConfig(['axis', 'x', 'default']),
             __axis_x_label = getConfig(['axis', 'x', 'label'], {}),
@@ -1288,7 +1289,7 @@
                 maxDataCount = getMaxDataCount();
                 padding = maxDataCount > 1 ? (diff / (maxDataCount - 1)) / 2 : 0.5;
             } else {
-                padding = diff * 0.01;
+                padding = diff * (__axis_x_padding_pct / 100);
             }
             if (typeof __axis_x_padding === 'object' && notEmpty(__axis_x_padding)) {
                 paddingLeft = isValue(__axis_x_padding.left) ? __axis_x_padding.left : padding;
