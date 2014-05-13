@@ -3483,11 +3483,11 @@
                 if (isCustomX && !isCategorized) {
                     rectW = function (d, i) {
                         var prevX = getPrevX(i), nextX = getNextX(i), dx = c3.data.xs[d.id][i];
-                        return (x(nextX ? nextX : dx + 50) - x(prevX ? prevX : dx - 50)) / 2;
+                        return (x(nextX !== undefined ? nextX : dx + 50) - x(prevX !== undefined ? prevX : dx - 50)) / 2;
                     };
                     rectX = function (d, i) {
                         var prevX = getPrevX(i), dx = c3.data.xs[d.id][i];
-                        return (x(dx) + x(prevX ? prevX : dx - 50)) / 2;
+                        return (x(dx) + x(prevX !== undefined ? prevX : dx - 50)) / 2;
                     };
                 } else {
                     rectW = getEventRectWidth();
