@@ -1,25 +1,37 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/c3.css">
   </head>
   <body>
     <div id="chart"></div>
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="/js/c3.min.js"></script>
+    <script src="/js/c3.js"></script>
     <script>
+
       var chart = c3.generate({
-        bindto: '#chart',
         data: {
           columns: [
-            ['sample', 30, 200, 100, 400, 150, 250]
+//            ['data1', 100, 200],
           ],
-          types: {
-            'sample': 'bar'
+          empty: {
+            label: {
+              text: 'No Data'
+            }
           }
+        },
+        subchart: {
+          show: true
         }
       });
+
+      setTimeout(function () {
+        chart.load({
+          columns: [
+            ['data1', 100, 200],
+          ],
+        });
+      }, 1000);
     </script>
   </body>
 </html>
