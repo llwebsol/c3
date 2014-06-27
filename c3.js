@@ -822,7 +822,8 @@
         function getAxisId(id) {
             return id in __data_axes ? __data_axes[id] : 'y';
         }
-        function getXAxisTickFormat() {
+        function getXAxisTickFormat(forTooltip) {
+            if (!forTooltip) forTooltip = false;
             var format = isTimeSeries ? defaultAxisTimeFormat : isCategorized ? categoryName : function (v) { return v < 0 ? v.toFixed(0) : v; };
             if (__axis_x_tick_format) {
                 if (typeof __axis_x_tick_format === 'function') {
@@ -833,7 +834,7 @@
                     };
                 }
             }
-            if (!isNaN(parseInt(__axis_x_truncate)) && parseInt(__axis_x_truncate) > 0) {
+            if (!forTooltip && !isNaN(parseInt(__axis_x_truncate)) && parseInt(__axis_x_truncate) > 0) {
                 return function(arg) {
                     return truncateTick(arg, format);
                 };
@@ -2065,7 +2066,7 @@
             if (dataToShow.length === 0 || !__tooltip_show) {
                 return;
             }
-            tooltip.html(__tooltip_contents(selectedData, getXAxisTickFormat(), getYFormat(forArc), color)).style("display", "block");
+            tooltip.html(__tooltip_contents(selectedData, getXAxisTickFormat(true), getYFormat(forArc), color)).style("display", "block");
 
             // Get tooltip dimensions
             tWidth = tooltip.property('offsetWidth');
