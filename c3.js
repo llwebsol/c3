@@ -833,6 +833,11 @@
                     };
                 }
             }
+            if (!isNaN(parseInt(__axis_x_truncate)) && parseInt(__axis_x_truncate) > 0) {
+                return function(arg) {
+                    return truncateTick(arg, format);
+                };
+            }
             return format;
         }
         function getAxisLabelOptionByAxisId(axisId) {
@@ -1826,6 +1831,17 @@
         }
         function categoryName(i) {
             return i < __axis_x_categories.length ? __axis_x_categories[i] : i;
+        }
+        function truncateTick(arg, format) {
+            var val = format(arg).toString(),
+                length = parseInt(__axis_x_truncate);
+            if (val.length <= length) return val;
+            if (__axis_rotated) {
+                val = '...' + val.substr(val.length - length + 3);
+            } else {
+                val = val.substr(0, length - 3) + '...';
+            }
+            return val;
         }
         function generateClass(prefix, targetId) {
             return " " + prefix + " " + prefix + getTargetSelectorSuffix(targetId);
