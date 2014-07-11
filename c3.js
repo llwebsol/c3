@@ -1834,8 +1834,10 @@
             return i < __axis_x_categories.length ? __axis_x_categories[i] : i;
         }
         function truncateTick(arg, format) {
-            var val = format(arg).toString(),
+            var val = format(arg),
                 length = parseInt(__axis_x_truncate);
+            if (val === undefined || val === null) val = arg.toString();
+            else val = val.toString();
             if (val.length <= length) return val;
             if (__axis_rotated) {
                 val = '...' + val.substr(val.length - length + 3);
